@@ -2,17 +2,24 @@
 
 ## Types of Wage Types
 
-* Earnings
+* Earnings - grossed into
   * Infotypes 0008, 0014, 0015
   * Taxable
   * Added to gross wages
-* Pre-tax deductions
-  * Infotypes 0167, 0169
-  * Health Insurance
-  * RRSP
-* Post-tax deductions
-  * Infotypes 0014, 0015
-  * Union Dues
+  * Technical wage types for earnings:
+    * /101 - Total Gross
+    * /102 - Regular taxable income
+    * /103 - Non-periodic tax income (eg. bonus payments)
+    * /104 - Lump sum payments (eg. death benefits, severance payments)
+* Deductions - grossed into wage type /110
+  * Pre-tax deductions
+    * Infotypes 0167, 0169
+    * Health Plan Deductions
+    * Dental Plan Deductions
+    * RRSP
+  * Post-tax deductions
+    * Infotypes 0014, 0015
+    * Union Dues
 * Taxes
 
 ## Wage Type Lifecycle
@@ -32,6 +39,7 @@
 * Implementation-Specific Wage Types
   * Implementation-specific wage types that are generated during the payroll process due to a configuration.
   * Wage types for benefits, savings plans, garnishments.
+  * Can be pre-tax or post-tax deductions
 * Technical Wage Types
   * /101 (Total Gross)
   * /110 (Total Deductions)
@@ -101,24 +109,56 @@ Wage types are posted to FI.  They are posted to expense accounts or balance she
 * Use model wage types (starting with M)
 * Wage type numbering (must be a number)
 
+## Wage Type Tables
+
+T511: Wage type characteristics
+T512T: Wage type texts
+T512W: Wage type valuation
+T512Z: Permissibility for infotype
+T528C: Valuation
+T52D7: Wage type groups
+T52DZ: Assignment of model wage type
+T52EL: Posting of wage types
+T52EZ: Time dependency of posting
+T539J: Valuation
+T54C3: Cumulation
+
 ## Step-by-Step Configuration of a Wage Type - Summary
 
-### Earnings
+### Steps for Earnings
 
 
-| Step | Name                                                     | Table    | IMG Path                                                                                                                                                  | Notes                                                                                           |
-| :----- | :--------------------------------------------------------- | :--------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------ |
-| 1    | Create wage type catalog                                 |          | Personnel Management > Payroll Data > {*Earnings Infotype*} > Wage Types > Create wage type catalog > Copy                                                | {*Earnings Infotype*} = Basic Pay, Recurring Payments and Deductions, Additional Payments, etc. |
-| 2    | Check wage type text                                     | V_512W_T | Personnel Management > Payroll Data > {*Earnings Infotype*} > Wage Types > Check Wage Type Catalog > Check wage type text                                 | {*Earnings Infotype*} = Basic Pay, Recurring Payments and Deductions, Additional Payments, etc. |
-| 3    | Check Entry Permissibility for {*Earnings Infotype*}     | V_T512Z  | Personnel Management > Payroll Data > {*Earnings Infotype*} > Wage Types > Check Wage Type Catalog > Check Entry Permissibility for {*Earnings Infotype*} | {*Earnings Infotype*} = Basic Pay, Recurring Payments and Deductions, Additional Payments, etc. |
-| 4    | Define employee subgroup groupings for primary wage type | V_503_G  | Personnel Management > Payroll Data > {*Earnings Infotype*} > Wage Types > Define employee subgroup groupings for primary wage type                       | {*Earnings Infotype*} = Basic Pay, Recurring Payments and Deductions, Additional Payments, etc. |
-| 5    | Define personnel subarea grouping for primary wage type  | V_001P_K | Personnel Management > Payroll Data > {*Earnings Infotype*} > Wage Types > Define personnel subarea grouping for primary wage type                        | {*Earnings Infotype*} = Basic Pay, Recurring Payments and Deductions, Additional Payments, etc. |
-| 6    | Define Wage Type Permissibility for each PS and ESG      | V_511_B  | Personnel Management > Payroll Data > {*Earnings Infotype*} > Wage Types > Check Wage Type Catalog > Define Wage Type Permissibility for each PS and ESG  | {*Earnings Infotype*} = Basic Pay, Recurring Payments and Deductions, Additional Payments, etc. |
-| 7    | Check wage type characteristics                          | V_T511   | Personnel Management > Payroll Data > {*Earnings Infotype*} > Wage Types > Check Wage Type Catalog > Check wage type characteristics                      | {*Earnings Infotype*} = Basic Pay, Recurring Payments and Deductions, Additional Payments, etc. |
-| 8    | Adjust the Processing Classes                            | V_512W_D |                                                                                                                                                           | IMG is too cumbersome, so use the customizing table in sm30.                                    |
-| 9    | Determine the Cumulation Wage Types                      | V_512W_D |                                                                                                                                                           | IMG is too cumbersome, so use the customizing table in sm30.                                    |
-| 10   | Maintain Custom Cumulation                               |          |                                                                                                                                                           | If you need to create new cumulations, you can use unused numbers.                              |
+| Step | Name                                                     | Table    | IMG Path                                                                                                                                                  | Notes                                                                                                            |
+| :----- | :--------------------------------------------------------- | :--------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------- |
+| 1    | Create wage type catalog                                 |          | Personnel Management > Payroll Data > {*Earnings Infotype*} > Wage Types > Create wage type catalog > Copy                                                | {*Earnings Infotype*} = Basic Pay, Recurring Payments and Deductions, Additional Payments, etc.                  |
+| 2    | Check wage type text                                     | V_512W_T | Personnel Management > Payroll Data > {*Earnings Infotype*} > Wage Types > Check Wage Type Catalog > Check wage type text                                 | {*Earnings Infotype*} = Basic Pay, Recurring Payments and Deductions, Additional Payments, etc.                  |
+| 3    | Check Entry Permissibility for {*Earnings Infotype*}     | V_T512Z  | Personnel Management > Payroll Data > {*Earnings Infotype*} > Wage Types > Check Wage Type Catalog > Check Entry Permissibility for {*Earnings Infotype*} | {*Earnings Infotype*} = Basic Pay, Recurring Payments and Deductions, Additional Payments, etc.                  |
+| 4    | Define employee subgroup groupings for primary wage type | V_503_G  | Personnel Management > Payroll Data > {*Earnings Infotype*} > Wage Types > Define employee subgroup groupings for primary wage type                       | {*Earnings Infotype*} = Basic Pay, Recurring Payments and Deductions, Additional Payments, etc.                  |
+| 5    | Define personnel subarea grouping for primary wage type  | V_001P_K | Personnel Management > Payroll Data > {*Earnings Infotype*} > Wage Types > Define personnel subarea grouping for primary wage type                        | {*Earnings Infotype*} = Basic Pay, Recurring Payments and Deductions, Additional Payments, etc.                  |
+| 6    | Define Wage Type Permissibility for each PS and ESG      | V_511_B  | Personnel Management > Payroll Data > {*Earnings Infotype*} > Wage Types > Check Wage Type Catalog > Define Wage Type Permissibility for each PS and ESG  | {*Earnings Infotype*} = Basic Pay, Recurring Payments and Deductions, Additional Payments, etc.                  |
+| 7    | Check wage type characteristics                          | V_T511   | Personnel Management > Payroll Data > {*Earnings Infotype*} > Wage Types > Check Wage Type Catalog > Check wage type characteristics                      | {*Earnings Infotype*} = Basic Pay, Recurring Payments and Deductions, Additional Payments, etc.                  |
+| 8    | Adjust the Processing Classes                            | V_512W_D |                                                                                                                                                           | IMG is too cumbersome, so use the customizing table in sm30.                                                     |
+| 9    | Determine the Cumulation Wage Types                      | V_512W_D |                                                                                                                                                           | IMG is too cumbersome, so use the customizing table in sm30.                                                     |
+| 10   | Maintain Custom Cumulation                               |          |                                                                                                                                                           | If you need to create new cumulations, you can use unused numbers.                                               |
+| 11   | Determine Factoring                                      | V_512W_D |                                                                                                                                                           | Eg. Processing class 10 (Coding wage types for partial period factoring), Specification 1 (Cut with factor /801) |
 
-### Deductions
+#### Technical Wage Types Associated with Earnings
 
-### Taxes
+
+| Technical Wage Type | Relationship to Earnings                                                                                                                                                                                                                                                                  |
+| :-------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| /101                | Gross wages: Earnings are cumulated to /101; as such, the cumulation class 1 for earnings should be selected.                                                                                                                                                                             |
+| /102                | Regular Taxable Income: All wage types subjected to Federal Income Tax and Provincial (territorial) tax under the general tax formula for periodic payments are cumulated here. (Excluding Quebec Provincial Tax)                                                                         |
+| /103                | Non periodic tax income: All wage types such as bonus, a retroactive pay increase or other non-perodic payments, are subject to an aggregrate tax calculation formula for non-periodic payments; as specified for tax factor TB in the Payroll Deductions Formulas for Computer Programs. |
+| /104                | Lunp sum payments: Used to process the disbursement of lump sum payments (such as death benefits or severance payments) to employees or employee beneficiaries.                                                                                                                           |
+
+### Steps for Deductions
+
+**Reminder**: Deduction wage types can fall into one of two boxes, and they can either be input through infotypes or generated by configuring deductions such as benefits, savings bonds, and garnishments.
+
+Steps for creating and configuring deduction wage types that are entered into infotypes are similar to the steps for earnings wage types, expect that the {*Earnings Infotype*} placeholder is replaced by a {*Deduction Infotype*} placeholder.  Therefore, follow the steps for earnings wage types.
+
+Deduction wage types may have additional steps:
+
+
+### Steps for Taxes
