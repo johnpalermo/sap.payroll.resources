@@ -2,7 +2,7 @@
 
 ## Types of Wage Types
 
-* Earnings - grossed into
+* Earnings - grossed into /101
   * Infotypes 0008, 0014, 0015
   * Taxable
   * Added to gross wages
@@ -159,6 +159,5 @@ T54C3: Cumulation
 Steps for creating and configuring deduction wage types that are entered into infotypes are similar to the steps for earnings wage types, expect that the {*Earnings Infotype*} placeholder is replaced by a {*Deduction Infotype*} placeholder.  Therefore, follow the steps for earnings wage types.
 
 Deduction wage types may have additional steps:
-
 
 ### Steps for Taxes
