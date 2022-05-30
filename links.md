@@ -1,4 +1,4 @@
-# Year-End
+# Payroll
 ## SAP Help - Payroll Canada
 https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/eb65ca26f8f146c58f1fbdb013a64690/d17dd153da7e4308e10000000a174cb4.html
 ## SAP HCM Payroll Canada Wiki
@@ -15,6 +15,7 @@ https://wiki.scn.sap.com/wiki/display/ERPHCM/Create+Customer+Specific+payroll+fu
 https://blogs.sap.com/2020/03/12/how-to-create-a-payroll-function-in-sap-hr/
 ## Create a Custom Payroll Function Updating ZL Table
 https://wiki.scn.sap.com/wiki/display/ERPHCM/Create+a+Custom+Payroll+Function+Updating+ZL+Table
+# Year-End
 ## 2022 Non-Refundable Personal Tax Credits - Base Amounts
 https://www.taxtips.ca/nrcredits/tax-credits-2022-base.htm
 ## Payroll Deductions Formulas - 115th Edition Effective January 1, 2022
