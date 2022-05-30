@@ -150,7 +150,7 @@ T54C3: Cumulation
 | 1: Valuation                                    | Assignment to bases of valuation. For salary wage types, the specification would be 3 and for hourly wage types, the specification would be 1.                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | 3: Cumulation/Storage Time Types                | Cumulating and storing time wage types in RT.  The specification is typically 0 for salary and lump sums.                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | 4: Splits                                       | Summarizing wage types according to splits.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| 6: Transfer to LRT                              | Importing wage types from previous payroll account LRT.  Earnings are normally set to 0, which means pervious period results are not transferred to to the LRT table. Earnings from previous payroll period are not relevant for the current period.                                                                                                                                                                                                                                                                                                                       |
+| 6: Transfer to LRT                              | Importing wage types from previous payroll account LRT.  Earnings wage types created by the customer are normally set to 0, which means pervious period results are not transferred to to the LRT table. Earnings from previous payroll period are not relevant for the current period. This is also true for non-cumulative wage types; ie.  wage types that don't have a rolling sum from one period to the next (not to be confused with MTD, QTD, YTD cumulations)                                                                                                     |
 | 10: Factoring                                   | Coding wage types for partial period factoring. For employees leaving the company in mid-pay-period, used for partial payments. Salary is 1 (Cut with factor /801) and hourly is 0 (Not cut).                                                                                                                                                                                                                                                                                                                                                                              |
 | 20: Cumulation/Storage                          | Cumulation and Storage at the end of the Gross Part. After all the wage types from basic pay and other master data infotypes have been finally evaluated, they are cumulated in the collective results and stored in RT.  Salary wage types will have a specification of 3 (RT storage and cumulation) because it is already a pay period sum amount.  Hourly wage types will have a specification of 2 because it is not the hourly wage that is stored, but the salary that is stored.  The horuly wage type is an auxiliary wage type for calculating the gross amount. |
 | 30: Cumulation                                  | Cumulation update (table CRT). For salaried earnings, the specification is generally T, in which the cumulation is performed according to table T54C3 (establishes Y and K periods).  For hourly earnings, it is not appropriate to cummulate the amounts; therefore the specification will be 0 (Wage Type may not be cumulated).                                                                                                                                                                                                                                         |
@@ -220,4 +220,98 @@ The following sample steps should be used to manage these paid wage types.
 
 #### Common Processing Classes for Deduction Wage Types
 
-### Steps for Taxes
+
+| Processing Class                  | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| :---------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 3: Cumulation/Storage Time Types  | Cumulating and storing time wage types in RT.  A common specification is 0 for pay-period deductions, as they need to be passed on to calculate the gross amount from the time amount.                                                                                                                                                                                                                                                                                    |
+| 4: Splits                         | Summarizing wage types according to splits. Deductions from infotype 15 generaly are not split, simply transferred for further processing, and so have a specification of 6.                                                                                                                                                                                                                                                                                              |
+| 6: Transfer to LRT                | Importing wage types from previous payroll account LRT.  Deduction wage types created by the customer are normally set to 0, which means pervious period results are not transferred to to the LRT table. Deductions from previous payroll period are not relevant for the current period. This is also true for non-cumulative wage types; ie.  wage types that don't have a rolling sum from one period to the next (not to be confused with MTD, QTD, YTD cumulations) |
+| 10: Factoring                     | Coding wage types for partial period factoring. For employees leaving the company in mid-pay-period, used for partial payments. Many customer defined deduction wage types are typically 0 (No cut).                                                                                                                                                                                                                                                                      |
+| 20: Cumulation/Storage            | Cumulation and Storage at the end of the Gross Part. After all the wage types from basic pay and other master data infotypes have been finally evaluated, they are cumulated in the collective results and stored in RT.  Deduction wage types will have a specification of 1 (pass on unchanged) because they need to be transferrred unchanged to the net part of calculation.                                                                                          |
+| 30: Cumulation                    | Cumulation update (table CRT). For deduction wage types, the specification is generally T, in which the cumulation is performed according to table T54C3 (establishes Y and K periods).  This is similar to earnings wage types, such as salary.                                                                                                                                                                                                                          |
+| 31: Division by cost distribution | Division of monthly lump sums for cost distribution.  Specification is normally 0 (Wage type not necessitating cost center debiting/crediting) because this usually applied to earnings such as paid leaves.                                                                                                                                                                                                                                                              |
+
+#### Technical Wage Types Associated with Deductions
+
+
+| Technical Wage Type | Relationship to Deductions |
+| :-------------------- | :--------------------------- |
+| /110                | Net payments/deductions    |
+
+## Wage Type Splits
+
+### Definition
+
+Links from a wage type in table RT (results table) to other tables of the payroll result.
+
+### Use
+
+The wage types and some relevant information are stored in table RT. They can be linked with additional information in other tables using wage type splits. These links are created using a two-character split indicator.
+
+The wage type split defines changes to infotypes for the exact day and indicates these periods in the payroll results using the split indicator.
+
+### Example
+
+The Work Center-/Basic Pay Split (WPBP-Split) provides a link to table WPBP:
+
+![](assets/20220530_164006_wpbp-split.png)
+
+### Structure
+
+
+| Wage Type Split                            | Use                                                                                                                                              |
+| :------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Work Center-/ Basic Pay Split (WPBP-Split) | an employee's work center and/or basic pay change within a payroll period                                                                        |
+| Cost Accounting Split (C1 Split)           | an employee's assignment to a cost center changes within a payroll period                                                                        |
+| Split for Different Payments (ALP Split)   | an employee carries out substitution during a payroll period and is remunerated differently than normal.                                         |
+| Absence Split (AB-Split)                   | an employee is absent once or several times (for example, leave or illness) during a payroll period.                                             |
+| Bank Transfer Split (BT Split)             | A transfer exists for a wage type. Information on this transfer is found in table BT                                                             |
+| Variable Split (VO Split)                  | there is special information available for an employee for a payroll period, for example, information on a garnishment, a loan, or a company car |
+| Country-specific splits                    | there is country-specific information available for an employee for tax, social insurance and so on.                                             |
+
+### Wage Type Split: Example 1
+
+An employee's standard pay is changed on January 10 in the **Basic Pay** (0008) infotype:
+
+![](assets/20220530_164803_example1_basic_pay_spit.png)
+
+Wage type MA10 is available with a Work Center-/Basic Pay Split (WPBP-Split). The WPBP-split covers two partial periods that are indicated in the payroll results with split indicators:
+
+
+| Start date | End date | Wage type | AP |
+| ------------ | ---------- | ----------- | ---- |
+| 01.01.     | 09.01.   | MA10      | 01 |
+| 10.01.     | 31.01.   | MA10      | 02 |
+
+### Wage Type Split: Example 2
+
+An employee's standard pay is changed on January 12 in the **Basic Pay** (0008) infotype: A Work Center-/ Basic Pay Split (WPBP-Split) is created as a result. The employee also takes leave twice in this payroll period. Wage type AB01 is generated to calculate the absences. An Absence Split (AB-Split) exists for this wage type.
+
+![](assets/20220530_165548_example2_absence_spit.png)
+
+Wage type AB01 is taken from the system and split up among the WPBP periods. Wage type AB01 is available with a Work Center-/Basic Pay Split (WPBP-Split) **and** an Absence Split (AB-Split). Both the WPBP-split and the AB-split cover two partial periods that are indicated in the payroll results with split indicators:
+
+#### Work Center-/Basic Pay Split
+
+
+| Start date | End date | Wage type | AP |
+| ------------ | ---------- | ----------- | ---- |
+| 01.01      | 11.01.   | ABO1      | 01 |
+| 12.01.     | 31.01.   | ABO1      | 02 |
+
+#### Absence Split
+
+
+| Start date | End date | Wage type | AB |
+| ------------ | ---------- | ----------- | ---- |
+| 01.01.     | 15.01.   | ABO1      | 01 |
+| 25.01.     | 31.01.   | ABO1      | 02 |
+
+#### Representation in Payroll Results
+
+
+| Start date | End date | Wage type | AB | AP |
+| ------------ | ---------- | ----------- | ---- | ---- |
+| 01.01.     | 11.01.   | ABO1      | 01 | 01 |
+| 12.01.     | 15.01.   | ABO1      | 01 | 02 |
+| 25.01.     | 31.01.   | ABO1      | 02 | 02 |
