@@ -1,5 +1,40 @@
 # Wage Type Notes
 
+## Table of Contents
+
+- [Types of Wage Types](#types-of-wage-types)
+- [Wage Type Lifecycle](#wage-type-lifecycle)
+- [Input/Output Concept](#inputoutput-concepet)
+- [Wage Type Categories](#wage-type-categories)
+- [The Elements of a Wage Type](#the-elements-of-a-wage-type)
+  - [Wage Type Scenario by Elements](#wage-type-scenario-by-elements)
+- [Processing Classes](#processing-classes)
+- [Cumulation](#cumulation)
+- [Permissibility](#permissibility)
+- [Evaluation Classes](#evaluation-classes)
+- [Posting](#posting)
+- [Third-party Remittance](#third-party-remittance)
+- [Wage Type Catalog](#wage-type-catalog)
+- [Wage Type Tables](#wage-type-tables)
+- [Step-by-Step Configuration of a Wage Type - Summary](#step-by-step-configuration-of-a-wage-type---summary)
+  - [Steps for Earnings](#steps-for-earnings)
+    - [Common Processing Classes for Earnings Wage Types](#common-processing-classes-for-earnings-wage-types)
+    - [Technical Wage Types Associated with Earnings](#technical-wage-types-associated-with-earnings)
+  - [Steps for Deductions](#steps-for-deductions)
+    - [Goal/Deduction Linkage](#goaldeduction-linkage)
+    - [Common Processing Classes for Deduction Wage Types](#common-processing-classes-for-deduction-wage-types)
+    - [Technical Wage Types Associated with Deductions](#technical-wage-types-associated-with-deductions)
+- [Wage Type Splits](#wage-type-splits)
+  - [Definition of Wage Type Splits](#definition-of-wage-type-splits)
+  - [Use of Wage Type Splits](#use-of-wage-type-splits)
+  - [Example of Wage Type Splits](#example-of-wage-type-splits)
+  - [Structure of Wage Type Splits](#structure-of-wage-type-splits)
+  - [Wage Type Split: Example 1](#wage-type-split-example-1)
+  - [Wage Type Split: Example 2](#wage-type-split-example-2)
+    - [Work Center-/Basic Pay Split](#work-center-basic-pay-split)
+    - [Absence Split](#absence-split)
+    - [Representation of Split in Payroll Results](#representation-of-split-in-payroll-results)
+    
 ## Types of Wage Types
 
 * Earnings - grossed into /101
@@ -48,7 +83,7 @@
 
 ![](assets/20220524_132304_wage_type_categories.png)
 
-## The Elements Of A Wage Type
+## The Elements of a Wage Type
 
 * RTE (Rate)
   * Hourly rate
@@ -57,7 +92,7 @@
 * AMT (Amount)
   * Total dollar amount of wage type; for example, pay period salary.
 
-### Wage Type Scenario By Elements
+### Wage Type Scenario by Elements
 
 * Basic Pay
   * RTE, NUM, AMT
@@ -99,7 +134,7 @@ Wage types are posted to FI.  They are posted to expense accounts or balance she
 
 * Basic and overtime pay are posted to payroll expenses.
 
-## Third-party remittance
+## Third-party Remittance
 
 * Health plan deductions or RRSP deductions sent to benefits provider for third-party remittance processing.
 * Tax deductions remitted to tax authoriites.
@@ -127,7 +162,6 @@ T54C3: Cumulation
 
 ### Steps for Earnings
 
-
 | Step | Name                                                     | Table    | IMG Path                                                                                                                                                  | Notes                                                                                                            |
 | :----- | :--------------------------------------------------------- | :--------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------- |
 | 1    | Create wage type catalog                                 |          | Personnel Management > Payroll Data > {*Earnings Infotype*} > Wage Types > Create wage type catalog > Copy                                                | {*Earnings Infotype*} = Basic Pay, Recurring Payments and Deductions, Additional Payments, etc.                  |
@@ -143,7 +177,6 @@ T54C3: Cumulation
 | 11   | Determine Factoring                                      | V_512W_D |                                                                                                                                                           | Eg. Processing class 10 (Coding wage types for partial period factoring), Specification 1 (Cut with factor /801) |
 
 #### Common Processing Classes for Earnings Wage Types
-
 
 | Processing Class                                | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | :------------------------------------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -163,7 +196,6 @@ T54C3: Cumulation
 
 #### Technical Wage Types Associated with Earnings
 
-
 | Technical Wage Type | Relationship to Earnings                                                                                                                                                                                                                                                                  |
 | :-------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | /101                | Gross wages: Earnings are cumulated to /101; as such, the cumulation class 1 for earnings should be selected.                                                                                                                                                                             |
@@ -181,7 +213,7 @@ Deduction wage types may have additional steps:
 
 ![](assets/20220527_141014_additional_conf_steps_for_deductions.png)
 
-#### Goal/deduction linkage
+#### Goal/Deduction Linkage
 
 In Canadian Payroll, you will often have a situation where a regular per-pay deduction has a certain goal amount (also called a balance) and stops when the goal amount is reached. The goal amount is stored in Infotype 15.  Here the balance wage type is specified along with the goal (balance) amount.  The deduction amount is stored in Infotype 14.  Here the deduction wage type is specified along with the per-pay deduction amount. After processing payroll, all 3 wage types will be displayed - the deducted wage type and amount, the balance wage type and amount, and the totals wage type and amount.
 
@@ -220,7 +252,6 @@ The following sample steps should be used to manage these paid wage types.
 
 #### Common Processing Classes for Deduction Wage Types
 
-
 | Processing Class                  | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | :---------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 3: Cumulation/Storage Time Types  | Cumulating and storing time wage types in RT.  A common specification is 0 for pay-period deductions, as they need to be passed on to calculate the gross amount from the time amount.                                                                                                                                                                                                                                                                                    |
@@ -240,24 +271,23 @@ The following sample steps should be used to manage these paid wage types.
 
 ## Wage Type Splits
 
-### Definition
+### Definition of Wage Type Splits
 
 Links from a wage type in table RT (results table) to other tables of the payroll result.
 
-### Use
+### Use of Wage Type Splits
 
 The wage types and some relevant information are stored in table RT. They can be linked with additional information in other tables using wage type splits. These links are created using a two-character split indicator.
 
 The wage type split defines changes to infotypes for the exact day and indicates these periods in the payroll results using the split indicator.
 
-### Example
+### Example of Wage Type Splits
 
 The Work Center-/Basic Pay Split (WPBP-Split) provides a link to table WPBP:
 
 ![](assets/20220530_164006_wpbp-split.png)
 
-### Structure
-
+### Structure of Wage Type Splits
 
 | Wage Type Split                            | Use                                                                                                                                              |
 | :------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -293,7 +323,6 @@ Wage type AB01 is taken from the system and split up among the WPBP periods. Wag
 
 #### Work Center-/Basic Pay Split
 
-
 | Start date | End date | Wage type | AP |
 | ------------ | ---------- | ----------- | ---- |
 | 01.01      | 11.01.   | ABO1      | 01 |
@@ -301,14 +330,12 @@ Wage type AB01 is taken from the system and split up among the WPBP periods. Wag
 
 #### Absence Split
 
-
 | Start date | End date | Wage type | AB |
 | ------------ | ---------- | ----------- | ---- |
 | 01.01.     | 15.01.   | ABO1      | 01 |
 | 25.01.     | 31.01.   | ABO1      | 02 |
 
-#### Representation in Payroll Results
-
+#### Representation of Split in Payroll Results
 
 | Start date | End date | Wage type | AB | AP |
 | ------------ | ---------- | ----------- | ---- | ---- |
