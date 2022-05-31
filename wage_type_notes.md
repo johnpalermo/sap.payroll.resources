@@ -18,6 +18,7 @@
 - [Wage Type Tables](#wage-type-tables)
 - [Step-by-Step Configuration of a Wage Type - Summary](#step-by-step-configuration-of-a-wage-type---summary)
   - [Steps for Earnings](#steps-for-earnings)
+    - [Optional Steps for Earnings](#optional-steps-for-earnings)
     - [Common Processing Classes for Earnings Wage Types](#common-processing-classes-for-earnings-wage-types)
     - [Technical Wage Types Associated with Earnings](#technical-wage-types-associated-with-earnings)
   - [Steps for Deductions](#steps-for-deductions)
@@ -34,7 +35,7 @@
     - [Work Center-/Basic Pay Split](#work-center-basic-pay-split)
     - [Absence Split](#absence-split)
     - [Representation of Split in Payroll Results](#representation-of-split-in-payroll-results)
-    
+
 ## Types of Wage Types
 
 * Earnings - grossed into /101
@@ -162,6 +163,11 @@ T54C3: Cumulation
 
 ### Steps for Earnings
 
+> **Note**: For step 1, transaction code **OH11** can be used instead of navigating the IMG path.  An alternative IMG Path for Payroll Canada is *IMG > Payroll > Payroll: Canada >  Basic Settings > Environment for Mainting Wage Types > Create wage type catalog > Copy*
+
+> **Note**: Some of the following steps can also be found under the IMG Path *Payroll > Payroll: Canada >  Basic Settings > Environment for Mainting Wage Types*.  It may make more sense in general to make use of this path instead of the ones given in the table below.
+
+
 | Step | Name                                                     | Table    | IMG Path                                                                                                                                                  | Notes                                                                                                            |
 | :----- | :--------------------------------------------------------- | :--------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------- |
 | 1    | Create wage type catalog                                 |          | Personnel Management > Payroll Data > {*Earnings Infotype*} > Wage Types > Create wage type catalog > Copy                                                | {*Earnings Infotype*} = Basic Pay, Recurring Payments and Deductions, Additional Payments, etc.                  |
@@ -175,6 +181,10 @@ T54C3: Cumulation
 | 9    | Determine the Cumulation Wage Types                      | V_512W_D |                                                                                                                                                           | IMG is too cumbersome, so use the customizing table in sm30.                                                     |
 | 10   | Maintain Custom Cumulation                               |          |                                                                                                                                                           | If you need to create new cumulations, you can use unused numbers.                                               |
 | 11   | Determine Factoring                                      | V_512W_D |                                                                                                                                                           | Eg. Processing class 10 (Coding wage types for partial period factoring), Specification 1 (Cut with factor /801) |
+
+#### Optional Steps for Earnings
+
+1. Check or set assignment to wage type group.  Every wage type must be assigned to a wage type group. To check the assignment, use the IMG path *Payroll > Payroll: Canada >  Basic Settings > Environment for Mainting Wage Types > Logical views > Check assignment to wage type group*.  Alternatively, use transaction code **PU96**. To set the assignment, use transaction code **PU98**.  This step is generally not needed if the wage type copier is used as in step 1 above.  The wage type copier will copy the same wage type group assignment from the source wage type, so it's important to select an existing wage type that is in the same wage type group that you want the target wage type to be assigned to.
 
 #### Common Processing Classes for Earnings Wage Types
 
@@ -195,6 +205,7 @@ T54C3: Cumulation
 | 84: Definition of PPIP insurable earnings       | This processing class is used to determine whether the wagetype is eligible for Provincial Parental Insurance Plan (PPIP) earnings. Most earnings are eligible (1).  This specification doesn't apply to hourly wage types since it's the salary that is eligible and not the hourly wage.                                                                                                                                                                                                                                                                                 |
 
 #### Technical Wage Types Associated with Earnings
+
 
 | Technical Wage Type | Relationship to Earnings                                                                                                                                                                                                                                                                  |
 | :-------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -252,6 +263,7 @@ The following sample steps should be used to manage these paid wage types.
 
 #### Common Processing Classes for Deduction Wage Types
 
+
 | Processing Class                  | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | :---------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 3: Cumulation/Storage Time Types  | Cumulating and storing time wage types in RT.  A common specification is 0 for pay-period deductions, as they need to be passed on to calculate the gross amount from the time amount.                                                                                                                                                                                                                                                                                    |
@@ -289,6 +301,7 @@ The Work Center-/Basic Pay Split (WPBP-Split) provides a link to table WPBP:
 
 ### Structure of Wage Type Splits
 
+
 | Wage Type Split                            | Use                                                                                                                                              |
 | :------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Work Center-/ Basic Pay Split (WPBP-Split) | an employee's work center and/or basic pay change within a payroll period                                                                        |
@@ -323,6 +336,7 @@ Wage type AB01 is taken from the system and split up among the WPBP periods. Wag
 
 #### Work Center-/Basic Pay Split
 
+
 | Start date | End date | Wage type | AP |
 | ------------ | ---------- | ----------- | ---- |
 | 01.01      | 11.01.   | ABO1      | 01 |
@@ -330,12 +344,14 @@ Wage type AB01 is taken from the system and split up among the WPBP periods. Wag
 
 #### Absence Split
 
+
 | Start date | End date | Wage type | AB |
 | ------------ | ---------- | ----------- | ---- |
 | 01.01.     | 15.01.   | ABO1      | 01 |
 | 25.01.     | 31.01.   | ABO1      | 02 |
 
 #### Representation of Split in Payroll Results
+
 
 | Start date | End date | Wage type | AB | AP |
 | ------------ | ---------- | ----------- | ---- | ---- |
