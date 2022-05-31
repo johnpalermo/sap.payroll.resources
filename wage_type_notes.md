@@ -147,17 +147,17 @@ Wage types are posted to FI.  They are posted to expense accounts or balance she
 
 ## Wage Type Tables
 
-T511: Wage type characteristics
-T512T: Wage type texts
-T512W: Wage type valuation
-T512Z: Permissibility for infotype
-T528C: Valuation
-T52D7: Wage type groups
-T52DZ: Assignment of model wage type
-T52EL: Posting of wage types
-T52EZ: Time dependency of posting
-T539J: Valuation
-T54C3: Cumulation
+* T511: Wage type characteristics
+* T512T: Wage type texts
+* T512W: Wage type valuation
+* T512Z: Permissibility for infotype
+* T528C: Valuation
+* T52D7: Wage type groups
+* T52DZ: Assignment of model wage type
+* T52EL: Posting of wage types
+* T52EZ: Time dependency of posting
+* T539J: Valuation
+* T54C3: Cumulation
 
 ## Step-by-Step Configuration of a Wage Type - Summary
 
