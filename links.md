@@ -1,6 +1,8 @@
 # Payroll
 ## SAP Help - Payroll Canada
 https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/eb65ca26f8f146c58f1fbdb013a64690/d17dd153da7e4308e10000000a174cb4.html
+## SAP Help - Wage Types
+https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/21a0a960d9b44ccaa6ac02f87e100f2f/37cade537187424de10000000a174cb4.html
 ## SAP HCM Payroll Canada Wiki
 https://wiki.scn.sap.com/wiki/display/ERPHCM/SAP+HCM+Payroll+Canada
 ## ERP Human Capital Management Wiki
