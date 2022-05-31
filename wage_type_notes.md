@@ -35,6 +35,12 @@
     - [Work Center-/Basic Pay Split](#work-center-basic-pay-split)
     - [Absence Split](#absence-split)
     - [Representation of Split in Payroll Results](#representation-of-split-in-payroll-results)
+- [Tax](#tax)
+  - [Income Tax Wage Types](#income-tax-wage-types)
+    - [Income Tax Wage Types for Federal Tax Calculation](#income-tax-wage-types-for-federal-tax-calculation)
+    - [Income Tax Wage Types for Other Provincial Tax Calculations](#income-tax-wage-types-for-other-provincial-tax-calculations)
+    - [Income Tax Wage Types for Quebec Provincial Tax Calculation](#income-tax-wage-types-for-quebec-provincial-tax-calculation)
+    - [Additional tax specified on Infotype 046*](#additional-tax-specified-on-infotype-046)
 
 ## Types of Wage Types
 
@@ -187,6 +193,7 @@ Wage types are posted to FI.  They are posted to expense accounts or balance she
 1. Check or set assignment to wage type group.  Every wage type must be assigned to a wage type group. To check the assignment, use the IMG path *Payroll > Payroll: Canada >  Basic Settings > Environment for Mainting Wage Types > Logical views > Check assignment to wage type group*.  Alternatively, use transaction code **PU96**. To set the assignment, use transaction code **PU98**.  This step is generally not needed if the wage type copier is used as in step 1 above.  The wage type copier will copy the same wage type group assignment from the source wage type, so it's important to select an existing wage type that is in the same wage type group that you want the target wage type to be assigned to.
 
 #### Common Processing Classes for Earnings Wage Types
+
 
 | Processing Class                                | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | :------------------------------------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -358,3 +365,114 @@ Wage type AB01 is taken from the system and split up among the WPBP periods. Wag
 | 01.01.     | 11.01.   | ABO1      | 01 | 01 |
 | 12.01.     | 15.01.   | ABO1      | 01 | 02 |
 | 25.01.     | 31.01.   | ABO1      | 02 | 02 |
+
+## Tax
+
+Processing classes 65 through 84 affect the tax calculation for Canadian payroll.
+
+![](assets/20220531_142013_processing_classes_for_tax_calc_1.png)
+
+### Income Tax Wage Types
+
+Federal and provincial income taxes are getting calculated within the payroll function KATAX (parameter ICTX, LS or PT specified), located in schema KTX1. Separate wage types are utilized for federal and Quebec provincial tax calculation. For tax calculation, the following technical wage types are utilized.
+
+#### Income Tax Wage Types for Federal Tax Calculation
+
+
+| Wage Type | Description               |
+| :---------- | :-------------------------- |
+| /102      | Regular taxable income    |
+| /103      | Non-per. taxable payments |
+| /104      | Lump sum payments         |
+| /105      | Patronage payments        |
+| /106      | Tax exemptions            |
+| /107      | Tax credits               |
+| /108      | Tax exemptions on /103    |
+| /112      | Pension taxable income    |
+| /113      | Pension non-per.txbl.pmts |
+| /302      | Income tax/regular        |
+| /303      | Income tax/non-per.       |
+| /304      | Lump sum payments tax     |
+| /305      | Patronage payments tax    |
+| /306      | Additional tax request    |
+| /312      | Pension tax               |
+| /313      | Pension tax/non-per.      |
+
+Both agencies, CCRA and Revenu du Quebec distinguish the taxation/reporting of employment related income and pension income. Additional, some payments like patronage and lump sum payments have to be taxed according to specific rules. Therefore, within the tax calculation, different technical wage types are utilized to account for the attributes of various kind of payments.
+
+For the federal and provincial tax calculation w/o Quebec the following technical wage types are utilized.
+
+
+| Type of payment              | Taxable income | Source deduction | Tax credit | Tax  |
+| :----------------------------- | :--------------- | :----------------- | :----------- | :----- |
+| Regular payment              | /102           | /106             | /107       | /302 |
+| Non-periodic payment         | /103           | /108             |            | /303 |
+| Regular pension payment      | /112           |                  |            | /312 |
+| Non-periodic pension payment | /113           |                  |            | /313 |
+| Lump sum payment             | /104           |                  |            | /304 |
+| Patronage payment            | /105           |                  |            | /305 |
+
+> **Example**: Within your company you are paying a bonus. Within this example $1.000.00 is the bonus payment and part of the bonus - $200,00 - should go into a RRSP (source deduction). You will need two user wage types, one for the 'bonus' and one for the 'RRSP portion non-periodic'. The user wage type 'Bonus' should be accumulated in technical wage type /103 (and /153) since the bonus has to be considered as a non-periodic payment. The user wage type 'RRSP portion, non-periodic) should be accumulated in technical wage type /108 (and /161). Before the actual tax calculation, wage type /103 should hold the amount of $1.000,00 and /108 should hold the amount of $200.00. Within the tax calculation, the tax calculated on the bonus will be based on $1.000,00 - $200,00 = $800,00.
+
+> **Example**: Medical expenses and charitable donations authorized by a tax services office or tax centre have to be considered as tax credits within the tax calcualtion upon the request of an employee. Such user wage types should be accumulated within technical wage type /107 (/157).
+
+#### Income Tax Wage Types for Other Provincial Tax Calculations
+
+
+| Wage Type | Description               |
+| ----------- | --------------------------- |
+| /140      | NT/NU/Taxable income      |
+| /340      | NT/NU/Employee PayrollTax |
+
+#### Income Tax Wage Types for Quebec Provincial Tax Calculation
+
+
+| Wage Type | Description               |
+| ----------- | --------------------------- |
+| /152      | QC/Regular taxable income |
+| /153      | QC/Non-per.txbl. payments |
+| /154      | QC/Lump sum payments      |
+| /156      | QC/Tax exemptions         |
+| /157      | QC/Tax credits            |
+| /158      | QC/Regular commission     |
+| /159      | QC/A shares purchase ded. |
+| /160      | QC/Non-per. commission    |
+| /161      | QC/Non-per. tax exemption |
+| /162      | QC/Pension taxable income |
+| /163      | QC/Pens.non-per.txbl.pmts |
+| /352      | QC/Income tax/regular     |
+| /353      | QC/Income tax/non-per.    |
+| /354      | QC/Lump sum payments tax  |
+| /356      | Additional tax request QC |
+| /362      | QC/Pension tax            |
+| /363      | QC/Pension tax/non-per.   |
+
+For the Quebec provincial tax calculation the following technical wage types are utilized.
+
+
+| Type of payment              | Taxable income | Source deduction | Tax credit  | Tax  |
+| :----------------------------- | :--------------- | :----------------- | :------------ | :----- |
+| Regular payment              | /152           | /156             | /157 & /159 | /352 |
+| Non-periodic payment         | /153           | /161             |             | /353 |
+| Regular pension payment      | /162           |                  |             | /362 |
+| Non-periodic pension payment | /163           |                  |             | /363 |
+| Lump sum payment             | /154           |                  |             | /354 |
+
+Additional technical wage types utilized within the Quebec provincial tax calculation are:
+
+* /158      QC/Regular commission
+* /160      QC/Non-per. commission
+
+> **Example**: Within the province of Quebec, union dues and labour sponsored funds have to be treated as tax credits within the Quebec provincial tax calculation. Union dues should be accumulated within technical wage type /157 and labour sponsored funds should be accumulated within technical wage type /159.
+
+> **Example**: You are paying periodic and non-periodic commission payments to some of your employees. Periodic commission payments should be accumulated within wage type /158 and non-periodic commission payments should be accumulated within wage type /160.
+
+#### Additional tax specified on Infotype 046*
+
+For capturing the amount of additional tax (requested by the employee) and taken from his pay, SAP is utilizing two technical wage types:
+/306: Additional tax request
+/356: Additional tax request QC
+
+Wage type /306 stores additional tax taken for CCRA, and wage type /356 stores additional tax taken for Revenu du Quebec. Both wage types will be accumulated within the payroll cluster tables CRT and TCRT.
+
+The wage types /302 and /352 keep the tax calculated on the regular income as well as the additional tax. Since the additional tax amount is within the /302 or /352 amount, the amounts of wage types /306 and /356 should NOT BE remitted, posted or reported (e.g. wage types /306 and /356 **SHOULD NOT** be reported on the Year End forms like T4 or similar).
