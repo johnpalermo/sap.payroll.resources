@@ -41,6 +41,10 @@
     - [Income Tax Wage Types for Other Provincial Tax Calculations](#income-tax-wage-types-for-other-provincial-tax-calculations)
     - [Income Tax Wage Types for Quebec Provincial Tax Calculation](#income-tax-wage-types-for-quebec-provincial-tax-calculation)
     - [Additional tax specified on Infotype 046*](#additional-tax-specified-on-infotype-046)
+- [Net Pay](#net-pay)
+  - [Net Pay Wage Types](#net-pay-wage-types)
+  - [Net Pay Splits](#net-pay-splits)
+  - [Net Pay Money Transfer](#net-pay-money-transfer)
 
 ## Types of Wage Types
 
@@ -476,3 +480,42 @@ For capturing the amount of additional tax (requested by the employee) and taken
 Wage type /306 stores additional tax taken for CCRA, and wage type /356 stores additional tax taken for Revenu du Quebec. Both wage types will be accumulated within the payroll cluster tables CRT and TCRT.
 
 The wage types /302 and /352 keep the tax calculated on the regular income as well as the additional tax. Since the additional tax amount is within the /302 or /352 amount, the amounts of wage types /306 and /356 should NOT BE remitted, posted or reported (e.g. wage types /306 and /356 **SHOULD NOT** be reported on the Year End forms like T4 or similar).
+
+## Net Pay
+
+* amount an employee takes home
+* can be zero
+* cannot be negative (in arrears)
+* there are situations where an employee might owe money to his employer
+  * defined as *overpayments* and *claims* - discussed in [Advanced Topics](advanced_topics.md).
+
+### Net Pay Wage Types
+
+* /559 (net pay)
+  * can have splits if employee chooses more than one option for payment, such as transferring part of the payment to a bank account another the remainder payed out by check or to another bank account
+* /560 (amount paid)
+  * often the same as wage type /559
+  * discussed further in [Advanced Topics](advanced_topics.md)
+* /5PY (good money)
+  * normally a positive amount
+  * taxes cannot be calculated unless amount is positive
+  * discussed more with overpayments and claims in [Advanced Topics](advanced_topics.md)
+
+### Net Pay Splits
+
+The following is an example of /559 paid by one check or bank transfer.  This means that only split 01 is shown in the payroll results.
+
+![](assets/20220606_111011_net_pay_no_split.png)
+
+The following is and example of /559 paid by one check and one bank transfer.  This means that split 01 and split 02 are shown in the payroll results.
+
+![](assets/20220606_111318_net_pay_split.png)
+
+### Net Pay Money Transfer
+
+* Infotype 0009 is used to determine the method of payment (check vs bank transfer).
+* Data Medium Exchange (DME) is used to manage checks and bank transfers.
+* The payroll process writes data in the bank transfer (BT) tables in the payroll cluster.
+* DME programs access this table to pay the employee.
+* View BT table in the payroll cluster to get details of the money transfer.
+* Configuration for the DME process is found in the IMG under **Payroll Canada > EFT**.
