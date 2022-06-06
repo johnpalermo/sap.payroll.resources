@@ -309,15 +309,15 @@ The Work Center-/Basic Pay Split (WPBP-Split) provides a link to table WPBP:
 ### Structure of Wage Type Splits
 
 
-| Wage Type Split                            | Use                                                                                                                                              |
-| :------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Work Center-/ Basic Pay Split (WPBP-Split) | an employee's work center and/or basic pay change within a payroll period                                                                        |
-| Cost Accounting Split (C1 Split)           | an employee's assignment to a cost center changes within a payroll period                                                                        |
-| Split for Different Payments (ALP Split)   | an employee carries out substitution during a payroll period and is remunerated differently than normal.                                         |
-| Absence Split (AB-Split)                   | an employee is absent once or several times (for example, leave or illness) during a payroll period.                                             |
-| Bank Transfer Split (BT Split)             | A transfer exists for a wage type. Information on this transfer is found in table BT                                                             |
-| Variable Split (VO Split)                  | there is special information available for an employee for a payroll period, for example, information on a garnishment, a loan, or a company car |
-| Country-specific splits                    | there is country-specific information available for an employee for tax, social insurance and so on.                                             |
+| Wage Type Split                            | Use                                                                                                                                                                                                                                            |
+| :------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Work Center-/ Basic Pay Split (WPBP-Split) | an employee's work center and/or basic pay change within a payroll period                                                                                                                                                                      |
+| Cost Accounting Split (C1 Split)           | an employee's assignment to a cost center changes within a payroll period                                                                                                                                                                      |
+| Split for Different Payments (ALP Split)   | an employee carries out substitution during a payroll period and is remunerated differently than normal.                                                                                                                                       |
+| Absence Split (AB-Split)                   | an employee is absent once or several times (for example, leave or illness) during a payroll period.                                                                                                                                           |
+| Bank Transfer Split (BT Split)             | A transfer exists for a wage type. Information on this transfer is found in table BT.  For example, wage type /559 (net pay) is split with indicators 01 and 02 when Infotype 0009 is divided to send employee net pay to two different banks. |
+| Variable Split (VO Split)                  | there is special information available for an employee for a payroll period, for example, information on a garnishment, a loan, or a company car                                                                                               |
+| Country-specific splits                    | there is country-specific information available for an employee for tax, social insurance and so on.                                                                                                                                           |
 
 ### Wage Type Split: Example 1
 
