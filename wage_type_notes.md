@@ -45,6 +45,11 @@
   - [Net Pay Wage Types](#net-pay-wage-types)
   - [Net Pay Splits](#net-pay-splits)
   - [Net Pay Money Transfer](#net-pay-money-transfer)
+- [Testing Wage Types](#testing-wage-types)
+  - [Completeness Check](#completeness-check)
+  - [Wage Type Utilization Report](#wage-type-utilization-report)
+  - [Characteristics Check](#characteristics-check)
+- [Wage Type Template](#wage-type-template)
 
 ## Types of Wage Types
 
@@ -519,3 +524,32 @@ The following is and example of /559 paid by one check and one bank transfer.  T
 * DME programs access this table to pay the employee.
 * View BT table in the payroll cluster to get details of the money transfer.
 * Configuration for the DME process is found in the IMG under **Payroll Canada > EFT**.
+
+## Testing Wage Types
+
+### Completeness Check
+
+* Transaction Code: **PU30** *> Completeness Check*
+* Menu Path: *Human Resources > Payroll > Americas > Canada > Tools > Customizing Tools > Wage Type Maintenance > Completeness Check*
+
+### Wage Type Utilization Report
+
+* Program: **RPDLGA20**
+* Transaction Code: **PC00_M99_DLGA20**
+* Menu Path: *Human Resources > Payroll > Americas > Canada > Tools > Customizing Tools > Wage Type Utilization*
+
+### Characteristics Check
+
+Verify all configuration by checking it against the completed [wage type template](#wage-type-template).
+
+## Wage Type Template
+
+### Part 1: To Be Completed by Requestor
+
+
+| Description                      | Value |
+| ---------------------------------- | ------- |
+| Type: Earning/Deduction/Benefits |       |
+| Date                             |       |
+| Wage Type Number                 |       |
+|                                  |       |
