@@ -1,5 +1,14 @@
 # SAP Payroll Resources
+
 A collection of notes and online resources for SAP payroll, year-end, tax processing, etc.
 
-- [Links](links.md)
-- [Notes on the SAP Wage Type Concept (Comprehensive)](wage_type_notes.md)
+- :link: [Links](links.md)
+  - External links to useful resources on all things SAP Payroll
+  - Mostly relevant for SAP Payroll for Canada
+- :page_facing_up: [Notes on the SAP Wage Type Concept (Comprehensive)](wage_type_notes.md)
+  - Consise yet comprehensive notes on the SAP wage type concept
+  - Contents include processing classes, cumulations, configuration, splits, tax, net pay, testing, etc.
+- :blue_book: [Payroll Canada (PY-CA)](docs/pyca.PDF)
+  - This is the classic document on SAP Payroll for Canada.
+  - It discusses concepts, procudures, process flows, and activities related to payroll processing and customizing.
+  - Covers IMG, schemas, functions, operations, and rules.
