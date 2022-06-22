@@ -40,7 +40,7 @@ During the generation of the main schema, the source is parsed to find that subs
 
 As described previously, the functions of schema **KIN0** only serve to set switches (stored as rows) in table **FIELDS**, which in turn is stored in cluster **PCL2(PS)**.  The switches to be stored in table **FIELDS** are displayed in the log.  The switches have the same name as respective fields in the payroll driver.  That is to say that field **FC-PGM_TYP**, stored in the first column of table **FIELDS**, is defined as a field in payroll driver **RPCALCK0**.  When the cluster **PCL2(PS)** is read into **RPCALCK0**, the table **FIELDS** is read and each corresponding ABAP field in the source could is assigned the value from each respective row.  For example, for the row containing **FC-PGM_TYP** and **ABR**, the ABAP field **fc-pgm_type** will be assigned the value of **ABR**.
 
-> **Note**: For a more detailed look of how this is done in the payroll driver, refer to the page [Technical Notes for Payroll Driver RPCALCK0 using schema K000](/payroll_schema_k000_notes.md), section *How the schema source gets read*.
+> **Note**: For a more detailed look of how this is done in the payroll driver, refer to the page [Technical Notes for Payroll Driver RPCALCK0 using schema K000](payroll_schema_k000_notes.md), section *How the schema source gets read*.
 
 ![](assets/20220622_145306_k000_generation_log_fields.png)
 
