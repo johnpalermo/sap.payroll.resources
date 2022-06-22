@@ -1,4 +1,4 @@
-# Technical Notes for Payroll Schema K000 and Payroll Driver RPCALCK0
+# Technical Notes for Payroll Driver RPCALCK0 using schema K000
 
 ## Table of Contents
 
@@ -7,7 +7,7 @@
 * [RPCALCK0 - INITIALIZATION](#rpcalck0---initialization)
 * [RPCALCK0 - START-OF-SELECTION](#rpcalck0---start-of-selection)
     * [How the schema source gets read](#how-the-schema-source-gets-read)
-* [K000 - Step by Step]
+* [K000 - Step by Step](#k000---step-by-step)
 
 ## RPCALCK0 - Selection Screen Used
 
@@ -81,6 +81,20 @@
 > * See include RPCXPT00, lines 31-46, for an example.
 >   * Macro **RP-IMP-C2-PT** (include RPCXPT00) reads the schema source text
 > * Internal table **AS-SOURCE-TEXT** (include RPC2PT00) is where the schema source text is read into
+> * In the subschema **KIN0** (Initialization of payroll), the schema source is only relevant during the generation of the main schema.  The schema source is not considered in the source code of the payroll driver.
+>   * When the main schema (**K000**) is generated, a table named **FIELDS** is stored in the **PCL2(PS)** cluster along with the tables **AS-SOURCE**, **AS**, **XREF**, **INFTY**, and **PRINT**
+>       * **FIELDS** is of the following table type:
+>           * **HRPAY99_T_P2PS_FIELDS**
+>               * Line type **HRPAY99_S_P2PS_FIELDS**
+>       * Each line of the schema **KIN0** between BLOCK BEG and BLOCK END, generate a corresponding row in table **FIELDS** as follows:
+>           * PGM ABR   - FC-PGM_TYP            ABR
+>           * UPD YES   - FC-SW_UPD             X
+>           * OPT INFT  - FC-SW_OPT_INFTY       X
+>           * OPT TIME  - FC-SW_READPZ          X
+>           * OPT DEC   - FC-SW_DEC             X
+>           * CHECK ABR - FC-SW_CHECKPA03ABR    X
+>       * These can also be seen in the generation log under the Fields node.  More details can be found on the [Functional Notes for Payroll Schema K000 using Payroll Driver RPCALCK0](payroll_schema_k000_functional_notes.md) page.
+>       * When any of the lines are commented, their respective rows will not appear in the **FIELDS** table. More details can be found on the [Functional Notes for Payroll Schema K000 using Payroll Driver RPCALCK0](payroll_schema_k000_functional_notes.md) page.
 ---
 
 * ... continuing with RPCALCK0 - **START-OF-SELECTION**
@@ -112,5 +126,10 @@
     * Function module **HR_PL_MOVE_SCHEMA_TO_PLOG** handles this
         * Is called from PERFORM connect_as_with_schema_tree (332)
 
+[:top:](#table-of-contents)
+
+## K000 - Step by Step
+
+To be done.
 
 [:top:](#table-of-contents)
