@@ -3,8 +3,17 @@
 ## Table of Contents
 
 * [Main Schema](#main-schema)
-* [KIN0](#kin0)
+* [KIN0](#kin0---initialization-of-payroll)
   * [KIN0 to FIELDS Mapping](#kin0-to-fields-mapping)
+  * [KIN0 Payroll Driver Log](#kin0-payroll-driver-log)
+* [KBD0](#kbd0---basic-data)
+  * [ENAME - Read name](#ename---read-name)
+  * [WPBP - Read work place and basic pay](#wpbp---read-work-place-and-basic-pay)
+  * [P0002 - Read personal data (NAME/PERM)](#p0002---read-personal-data-nameperm)
+  * [P0006 - Read address data (ADR)](#p0006---read-address-data-adr)
+  * [ACTIO KSCD - Set WCB indicator](#actio-kscd---set-wcb-indicator)
+  * [KTXDM - Read Canadian taxes](#ktxdm---read-canadian-taxes)
+  * [Rest of schema KBD0](#rest-of-schema-kbd0)
 
 ## Main Schema
 
@@ -12,7 +21,7 @@
 
 [:top:](#table-of-contents)
 
-## KIN0
+## KIN0 - Initialization of payroll
 
 ![](assets/20220622_143113_kin0.png)
 
@@ -61,5 +70,103 @@ To disable specific switches such as checking the payroll control record, it is 
 | OPT TIME  | FC-SW_READPZ       | X            |
 | OPT DEC   | FC-SW_DEC          | X            |
 | CHECK ABR | FC-SW_CHECKPA03ABR | X            |
+
+[:top:](#table-of-contents)
+
+### KIN0 Payroll Driver Log
+
+![](assets/20220623_140742_kin0_payroll_log.png)
+
+[:top:](#table-of-contents)
+
+![](assets/20220623_140813_kin0_payroll_log_general_data_payroll_period.png)
+
+[:top:](#table-of-contents)
+
+![](assets/20220623_141005_kin0_payroll_log_general_data_selection.png)
+
+[:top:](#table-of-contents)
+
+![](assets/20220623_141036_kin0_payroll_log_general_data_general_program_control.png)
+
+[:top:](#table-of-contents)
+
+![](assets/20220623_141048_kin0_payroll_log_general_data_log.png)
+
+[:top:](#table-of-contents)
+
+![](assets/20220623_141159_kin0_payroll_log_successful_pernrs.png)
+
+[:top:](#table-of-contents)
+
+## KBD0 - Basic data
+
+
+| Fct   | Par1 | Par2 | Par3 | Par4 | D | Text                              |
+| :------ | :----- | :----- | :----- | :----- | :-- | :---------------------------------- |
+| COM   |      |      |      |      |   | Read basic data                   |
+| BLOCK | BEG  |      |      |      |   | Reading basic data                |
+| ENAME |      |      |      |      |   | Read name                         |
+| WPBP  |      |      |      |      |   | Read work place                   |
+| P0002 |      |      |      |      |   | Read personal data (NAME/PERM)    |
+| P0006 |      |      |      |      |   | Read address data (ADR)           |
+| ACTIO | KSCD |      |      |      |   | Clear internal table IT           |
+| P0224 |      |      |      |      | * | Read tax information              |
+| KTXDM |      |      |      |      |   |                                   |
+| GON   |      |      |      |      |   | Continue with complete data       |
+| PITAB | S    | BPIT |      |      |   | Save basis pay for tax assessment |
+| IF    |      | SPRN |      |      |   | If special run                    |
+| RFRSH |      | IT   |      |      |   | Clear internal table IT           |
+| ENDIF |      |      |      |      |   | Endif                             |
+| DATES |      |      |      |      |   | Providing date specifications     |
+| BLOCK | END  |      |      |      |   |                                   |
+
+[:top:](#table-of-contents)
+
+### ENAME - Read name
+
+* Infotypes: 0001,0002
+* Input parameters: P0001, P0002
+* Output parameters: None
+* Code is very straight-forward (use PE04 to view the code)
+
+[:top:](#table-of-contents)
+
+### WPBP - Read work place and basic pay
+
+* Infotypes: 0000,0001,0007,0008,0027,0302
+* Input parameters: P0000,P0001,P0007,P0008,P0027
+* Output parameters: WPBP,IT,C0,FUND
+  * **WPBP** - Workplace/Basic Pay Splits
+    * Structure PC205
+    * Contains the multiple records pertaining to a payroll period split in any of the following infotypes:
+      * P0000,P0001,P0007,P0008
+  * **C0** - Cost distribution splits (from IT 0027)
+    * Structure PC20A
+    * Contains the multiple records pertaining to a cost distribution in infotype P0027
+  * **IT** - Wage type table
+    * Structure
+    * If there are splits in either of WPBP and C0, then a wage type will have many records, with each record referring to the respective split record of WPBP and C0.  This is done by having two specific key fields from IT (one for WPBP and one for C0) that each point to their respective record in WPBP and C0 respectively.
+* Performs indirect evaluation of Infotype 8 if indirect evaluation is used to find the pay period salary.
+
+[:top:](#table-of-contents)
+
+### P0002 - Read personal data (NAME/PERM)
+
+[:top:](#table-of-contents)
+
+### P0006 - Read address data (ADR)
+
+[:top:](#table-of-contents)
+
+### ACTIO KSCD - Set WCB indicator
+
+[:top:](#table-of-contents)
+
+### KTXDM - Read Canadian taxes
+
+[:top:](#table-of-contents)
+
+### Rest of schema KBD0
 
 [:top:](#table-of-contents)
