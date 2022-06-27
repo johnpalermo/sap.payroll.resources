@@ -153,9 +153,28 @@ To disable specific switches such as checking the payroll control record, it is 
 
 ### P0002 - Read personal data (NAME/PERM)
 
+* Infotypes: 0002
+* Input parameters: P0002
+* Output parameters: NAME,PERM
+* This function is very straight-foward:
+  * It moves corresponding values to table NAME and PERM
+  * Structure for NAME is PC22Q
+    * Fields: NACHN, VORNA, ANRED (form of address), INITS (initials)
+  * Structure for PERM is PC22R
+    * Fields: GESCH (gender key), GBDAT (birthday), PERID (SIN), TXCMP (tax company), TCCPM
+
 [:top:](#table-of-contents)
 
 ### P0006 - Read address data (ADR)
+
+* Infotypes: 0006
+* Input parameters: P0006
+* Output parameters: ADR
+  * Structure:
+    * PC22S
+      * STRAS,LOCAT,ORT01,ORT02,STATE,PSTLZ,LAND1
+* This function is very straightforward
+  * It moves corresponding values from P0006 to ADR
 
 [:top:](#table-of-contents)
 
