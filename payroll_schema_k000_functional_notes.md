@@ -145,7 +145,7 @@ To disable specific switches such as checking the payroll control record, it is 
     * Structure PC20A
     * Contains the multiple records pertaining to a cost distribution in infotype P0027
   * **IT** - Wage type table
-    * Structure
+    * Structure PC207 (Payroll Results: Results Table) - similar to RT table
     * If there are splits in either of WPBP and C0, then a wage type will have many records, with each record referring to the respective split record of WPBP and C0.  This is done by having two specific key fields from IT (one for WPBP and one for C0) that each point to their respective record in WPBP and C0 respectively.
 * Performs indirect evaluation of Infotype 8 if indirect evaluation is used to find the pay period salary.
 
@@ -179,6 +179,21 @@ To disable specific switches such as checking the payroll control record, it is 
 [:top:](#table-of-contents)
 
 ### ACTIO KSCD - Set WCB indicator
+
+* Infotypes: None
+* Input parameters: WPBP
+* Output parameters: IT
+* Function ACTIO is performed first
+  * In this scenario PAR1 is a rule (**KSCD**)
+  * Note that ABART is the employee subgroup grouping for personnel calculation rule
+  * In this scenario, the rule will run for all ABARTs (debugging into **FORM fudoregel** from ACTIOs code will reveal this fact - **ot-abart = '*'**)
+  * In this scenario, ACTIO simply calls rule **KSCD** with ABART '\*' and LGART '\*\*\*\*'
+    * In the source tree for rule **KSDC** (transaction code PE02), only **ABART** '\*' and **LGART** '\*\*\*\*' exist
+  * The rule also does not operate on any wage type, as confirmed in the documentation
+* **ACTIO** calls rule **KSCD**
+  * The rule calls operation **KSCED** which simply sets the WCB indicator (**WCB_SCHEDULE**) to '1', which flags the payroll driver to calculate the premium. In the code for operation **KSCED** (via t-code **PE04**), the variable **WCB_SCHEDULE** can be seen.
+  * Table **IT** remains unchanged.
+* Summary: **WCB_SCHEDULE** is set to 1, **WPBP** is not used, and **IT** is unchanged.
 
 [:top:](#table-of-contents)
 
