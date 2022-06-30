@@ -199,6 +199,14 @@ To disable specific switches such as checking the payroll control record, it is 
 
 ### KTXDM - Read Canadian taxes
 
+* Infotypes: 0461 (Tax Assignment CA), 0462 (Provincial Tax CA), 0463 (Federal Tax CA), 0464 (Additional Tax Data CA), 0712 (Main Personnel Assignment)
+* Input paremeters: P0461, P0462, P0463, P0464
+* Output paremeters: TAX1 (Structure **PC294**), TAX2 (Structure **PC295**), WCB1 (Structure **PC2WCB1**)
+* Step 1: Determine number of pay periods in the year (**TAXA_P-NUMPY**) and number of pay periods remaining in the year (**TAXA_P-NUMPR**)
+  * It is here where any implementations for BAdI **HRPAYCA_TAX_001** are performed.
+    * To check if any implementations exist, use transaction **se18** *> Top Menu > Implementation > Overview*
+* Step 2: Build the tax table **TAX1**
+
 [:top:](#table-of-contents)
 
 ### Rest of schema KBD0
