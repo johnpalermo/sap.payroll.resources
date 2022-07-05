@@ -49,6 +49,7 @@
   - [Completeness Check](#completeness-check)
   - [Wage Type Utilization Report](#wage-type-utilization-report)
   - [Characteristics Check](#characteristics-check)
+  - [Wage Type Reporter](#wage-type-reporter)
 - [Wage Type Template](#wage-type-template)
 
 ## Types of Wage Types
@@ -541,6 +542,10 @@ The following is and example of /559 paid by one check and one bank transfer.  T
 ### Characteristics Check
 
 Verify all configuration by checking it against the completed [wage type template](#wage-type-template).
+
+### Wage Type Reporter
+
+* Transaction Code: **PC00_M07_CWTR**
 
 ## Wage Type Template
 
