@@ -15,4 +15,5 @@ A collection of notes and online resources for SAP payroll, year-end, tax proces
   - This is the classic document on SAP Payroll for Canada.
   - It discusses concepts, procudures, process flows, and activities related to payroll processing and customizing.
   - Covers IMG, schemas, functions, operations, and rules.
-- :link: [Transactions and Reports in Payroll](transactions.md)
+- :page_facing_up: [Transactions and Reports in Payroll](transactions.md)
+- :page_facing_up: [Tables Relevant for Payroll](tables.md)
