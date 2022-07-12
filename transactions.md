@@ -29,3 +29,4 @@ https://wiki.scn.sap.com/wiki/display/ERPHCM/Transactions+and+Reports+in+PY
 
 * **H99CWTR0 - Wage Type Reporter**
 * **RPDLGA20 - Use of wage types in payroll**
+* **RPDASC00 - Expand payroll or time schema**
